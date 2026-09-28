@@ -48,9 +48,11 @@ class Indexer:
 
             pixel_values = inputs["pixel_values"].to(self.device)
 
-            features = self.model.get_image_features(
+            outputs = self.model.get_image_features(
                 pixel_values=pixel_values
             )
+
+            features = outputs.pooler_output
 
             features = torch.nn.functional.normalize(
                 features,

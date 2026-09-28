@@ -56,10 +56,12 @@ class Retriever:
             self.device
         )
 
-        features = self.model.get_text_features(
+        outputs = self.model.get_text_features(
             input_ids=input_ids,
             attention_mask=attention_mask,
         )
+
+        features = outputs.pooler_output
 
         features = torch.nn.functional.normalize(
             features,
