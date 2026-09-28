@@ -32,7 +32,9 @@ RECALL_PATH = Path(
 PREDICTION_PATH = Path(
     "results/colpali_predictions.json"
 )
-
+EVAL_IDS_PATH = Path(
+    "data/annotations/text_recall_eval_ids.json"
+)
 TOP_K = 5
 MAX_WORKERS = 5
 
@@ -146,6 +148,22 @@ def retrieve_all():
 
 def evaluate_recall():
     processor = get_processor()
+    samples = processor.get_samples()
+
+    with open(
+        EVAL_IDS_PATH,
+        "r",
+        encoding="utf-8",
+    ) as f:
+        eval_ids = {
+            str(qid)
+            for qid in json.load(f)
+        }
+
+    print(
+        f"Fixed evaluation questions: "
+        f"{len(eval_ids)}"
+    )
 
     with open(
         METADATA_PATH,
@@ -167,15 +185,16 @@ def evaluate_recall():
 
     hits = 0
     total = 0
+    missing_relevance = 0
 
-    samples = (
-        processor.get_samples()
-    )
+    for sample in samples:
+        qid = str(
+            sample["questionId"]
+        )
 
-    for i, sample in enumerate(
-        samples,
-        start=1,
-    ):
+        if qid not in eval_ids:
+            continue
+
         relevant = (
             evaluator
             .get_relevant_visual_chunks(
@@ -184,30 +203,30 @@ def evaluate_recall():
             )
         )
 
+        # 和 SigLIP 完全同一规则
         if not relevant:
+            missing_relevance += 1
+            total += 1
             continue
-
-        qid = str(
-            sample["questionId"]
-        )
 
         retrieved = retrievals[
             qid
         ]
 
-        hit = evaluator.recall_at_k(
+        hits += evaluator.recall_at_k(
             retrieved,
             relevant,
             TOP_K,
         )
 
-        hits += hit
         total += 1
 
-        if i % 100 == 0:
+        if total % 100 == 0:
             print(
-                f"[{i}/{len(samples)}] "
-                f"hits={hits}, eval={total}"
+                f"evaluated={total}, "
+                f"hits={hits}, "
+                f"missing_relevance="
+                f"{missing_relevance}"
             )
 
     metrics = {
@@ -218,6 +237,8 @@ def evaluate_recall():
         ),
         "hits": hits,
         "evaluated_questions": total,
+        "target_questions": len(eval_ids),
+        "missing_relevance": missing_relevance,
         "total_questions": len(samples),
     }
 
@@ -236,7 +257,6 @@ def evaluate_recall():
             indent=2,
         )
     )
-
 
 def generate_predictions():
     processor = get_processor()

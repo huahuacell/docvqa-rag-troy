@@ -173,23 +173,31 @@ class Evaluator:
         samples,
         retriever,
         processor,
+        eval_ids,
         k=5,
     ):
+        eval_ids = {
+            str(qid)
+            for qid in eval_ids
+        }
+
         hits = 0
         total = 0
+        missing_relevance = 0
 
-        for i, sample in enumerate(
-            samples,
-            1,
-        ):
-            relevant = (
-                self.get_relevant_visual_chunks(
-                    sample,
-                    processor,
-                )
+        for i, sample in enumerate(samples, 1):
+            qid = str(sample["questionId"])
+
+            if qid not in eval_ids:
+                continue
+
+            relevant = self.get_relevant_visual_chunks(
+                sample,
+                processor,
             )
 
             if not relevant:
+                missing_relevance += 1
                 continue
 
             retrieved = retriever.retrieve(
@@ -205,20 +213,18 @@ class Evaluator:
 
             total += 1
 
-            if i % 100 == 0:
+            if total % 100 == 0:
                 print(
-                    f"[{i}/{len(samples)}] "
+                    f"evaluated={total}, "
                     f"hits={hits}, "
-                    f"evaluated={total}"
+                    f"missing_relevance={missing_relevance}"
                 )
 
         return {
-            f"recall@{k}": (
-                hits / total
-                if total
-                else 0
-            ),
+            f"recall@{k}": hits / total if total else 0,
             "hits": hits,
             "evaluated_questions": total,
+            "target_questions": len(eval_ids),
+            "missing_relevance": missing_relevance,
             "total_questions": len(samples),
         }

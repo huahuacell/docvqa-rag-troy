@@ -14,7 +14,9 @@ INDEX_PATH = Path("results/siglip.index")
 METADATA_PATH = Path("results/siglip_metadata.json")
 RECALL_PATH = Path("results/siglip_recall.json")
 PREDICTION_PATH = Path("results/siglip_predictions.json")
-
+EVAL_IDS_PATH = Path(
+    "data/annotations/text_recall_eval_ids.json"
+)
 TOP_K = 5
 MAX_WORKERS = 5
 
@@ -59,7 +61,11 @@ def evaluate_recall(force=False):
     if not force and RECALL_PATH.exists():
         print("[SKIP] Recall result already exists.")
 
-        with open(RECALL_PATH, "r", encoding="utf-8") as f:
+        with open(
+            RECALL_PATH,
+            "r",
+            encoding="utf-8",
+        ) as f:
             metrics = json.load(f)
 
         print(json.dumps(metrics, indent=2))
@@ -69,6 +75,24 @@ def evaluate_recall(force=False):
         raise FileNotFoundError(
             "SigLIP index not found."
         )
+
+    if not EVAL_IDS_PATH.exists():
+        raise FileNotFoundError(
+            f"Evaluation ID file not found: "
+            f"{EVAL_IDS_PATH}"
+        )
+
+    with open(
+        EVAL_IDS_PATH,
+        "r",
+        encoding="utf-8",
+    ) as f:
+        eval_ids = json.load(f)
+
+    print(
+        f"Fixed evaluation questions: "
+        f"{len(eval_ids)}"
+    )
 
     processor = get_processor()
 
@@ -86,6 +110,7 @@ def evaluate_recall(force=False):
         samples=processor.get_samples(),
         retriever=retriever,
         processor=processor,
+        eval_ids=eval_ids,
         k=TOP_K,
     )
 
@@ -105,10 +130,20 @@ def evaluate_recall(force=False):
             indent=2,
         )
 
-    print("\n===== SigLIP Recall =====")
-    print(json.dumps(metrics, indent=2))
-    print("[DONE] Recall evaluation finished.")
+    print(
+        "\n===== SigLIP Recall ====="
+    )
 
+    print(
+        json.dumps(
+            metrics,
+            indent=2,
+        )
+    )
+
+    print(
+        "[DONE] Recall evaluation finished."
+    )
 
 def save_predictions(predictions):
     PREDICTION_PATH.parent.mkdir(
@@ -230,12 +265,12 @@ def generate_predictions():
     )
 
 
-def run_all():
+def run_all(force=False):
     print("\n=== Stage 1: SigLIP Index ===")
-    build_index()
+    build_index(force=force)
 
     print("\n=== Stage 2: Recall@5 ===")
-    evaluate_recall()
+    evaluate_recall(force=force)
 
     print("\n=== Stage 3: Generation ===")
     generate_predictions()
@@ -266,7 +301,7 @@ def main():
     args = parser.parse_args()
 
     if args.mode == "all":
-        run_all()
+        run_all(force=args.force)
 
     elif args.mode == "index":
         build_index(force=args.force)
