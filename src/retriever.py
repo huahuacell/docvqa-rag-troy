@@ -51,14 +51,13 @@ class Retriever:
             return_tensors="pt",
         )
 
-        input_ids = inputs["input_ids"].to(self.device)
-        attention_mask = inputs["attention_mask"].to(
-            self.device
-        )
+        inputs = {
+            key: value.to(self.device)
+            for key, value in inputs.items()
+        }
 
         outputs = self.model.get_text_features(
-            input_ids=input_ids,
-            attention_mask=attention_mask,
+            **inputs
         )
 
         features = outputs.pooler_output
@@ -70,7 +69,7 @@ class Retriever:
         )
 
         return features.cpu().numpy().astype("float32")
-
+    
     def retrieve(self, query, top_k=5):
         embedding = self.encode_query(query)
 
