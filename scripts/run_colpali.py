@@ -146,24 +146,126 @@ def retrieve_all():
     )
 
 
+# def evaluate_recall():
+#     processor = get_processor()
+#     samples = processor.get_samples()
+
+#     with open(
+#         EVAL_IDS_PATH,
+#         "r",
+#         encoding="utf-8",
+#     ) as f:
+#         eval_ids = {
+#             str(qid)
+#             for qid in json.load(f)
+#         }
+
+#     print(
+#         f"Fixed evaluation questions: "
+#         f"{len(eval_ids)}"
+#     )
+
+#     with open(
+#         METADATA_PATH,
+#         "r",
+#         encoding="utf-8",
+#     ) as f:
+#         metadata = json.load(f)
+
+#     evaluator = Evaluator(
+#         metadata
+#     )
+
+#     with open(
+#         RETRIEVAL_PATH,
+#         "r",
+#         encoding="utf-8",
+#     ) as f:
+#         retrievals = json.load(f)
+
+#     hits = 0
+#     total = 0
+#     missing_relevance = 0
+
+#     for sample in samples:
+#         qid = str(
+#             sample["questionId"]
+#         )
+
+#         if qid not in eval_ids:
+#             continue
+
+#         relevant = (
+#             evaluator
+#             .get_relevant_visual_chunks(
+#                 sample,
+#                 processor,
+#             )
+#         )
+
+#         # 和 SigLIP 完全同一规则
+#         if not relevant:
+#             missing_relevance += 1
+#             total += 1
+#             continue
+
+#         retrieved = retrievals[
+#             qid
+#         ]
+
+#         hits += evaluator.recall_at_k(
+#             retrieved,
+#             relevant,
+#             TOP_K,
+#         )
+
+#         total += 1
+
+#         if total % 100 == 0:
+#             print(
+#                 f"evaluated={total}, "
+#                 f"hits={hits}, "
+#                 f"missing_relevance="
+#                 f"{missing_relevance}"
+#             )
+
+#     metrics = {
+#         f"recall@{TOP_K}": (
+#             hits / total
+#             if total
+#             else 0
+#         ),
+#         "hits": hits,
+#         "evaluated_questions": total,
+#         "target_questions": len(eval_ids),
+#         "missing_relevance": missing_relevance,
+#         "total_questions": len(samples),
+#     }
+
+#     save_json(
+#         RECALL_PATH,
+#         metrics,
+#     )
+
+#     print(
+#         "\n===== ColPali Recall ====="
+#     )
+
+#     print(
+#         json.dumps(
+#             metrics,
+#             indent=2,
+#         )
+#     )
 def evaluate_recall():
     processor = get_processor()
     samples = processor.get_samples()
 
-    with open(
-        EVAL_IDS_PATH,
-        "r",
-        encoding="utf-8",
-    ) as f:
-        eval_ids = {
-            str(qid)
-            for qid in json.load(f)
-        }
-
-    print(
-        f"Fixed evaluation questions: "
-        f"{len(eval_ids)}"
-    )
+    if not RETRIEVAL_PATH.exists():
+        raise FileNotFoundError(
+            f"Retrieval cache not found: "
+            f"{RETRIEVAL_PATH}"
+        )
 
     with open(
         METADATA_PATH,
@@ -172,10 +274,6 @@ def evaluate_recall():
     ) as f:
         metadata = json.load(f)
 
-    evaluator = Evaluator(
-        metadata
-    )
-
     with open(
         RETRIEVAL_PATH,
         "r",
@@ -183,64 +281,18 @@ def evaluate_recall():
     ) as f:
         retrievals = json.load(f)
 
-    hits = 0
-    total = 0
-    missing_relevance = 0
+    evaluator = Evaluator(
+        metadata
+    )
 
-    for sample in samples:
-        qid = str(
-            sample["questionId"]
+    metrics = (
+        evaluator
+        .evaluate_document_recall_from_cache(
+            samples=samples,
+            retrievals=retrievals,
+            k=TOP_K,
         )
-
-        if qid not in eval_ids:
-            continue
-
-        relevant = (
-            evaluator
-            .get_relevant_visual_chunks(
-                sample,
-                processor,
-            )
-        )
-
-        # 和 SigLIP 完全同一规则
-        if not relevant:
-            missing_relevance += 1
-            total += 1
-            continue
-
-        retrieved = retrievals[
-            qid
-        ]
-
-        hits += evaluator.recall_at_k(
-            retrieved,
-            relevant,
-            TOP_K,
-        )
-
-        total += 1
-
-        if total % 100 == 0:
-            print(
-                f"evaluated={total}, "
-                f"hits={hits}, "
-                f"missing_relevance="
-                f"{missing_relevance}"
-            )
-
-    metrics = {
-        f"recall@{TOP_K}": (
-            hits / total
-            if total
-            else 0
-        ),
-        "hits": hits,
-        "evaluated_questions": total,
-        "target_questions": len(eval_ids),
-        "missing_relevance": missing_relevance,
-        "total_questions": len(samples),
-    }
+    )
 
     save_json(
         RECALL_PATH,
@@ -248,9 +300,8 @@ def evaluate_recall():
     )
 
     print(
-        "\n===== ColPali Recall ====="
+        "\n===== ColPali Document Recall ====="
     )
-
     print(
         json.dumps(
             metrics,

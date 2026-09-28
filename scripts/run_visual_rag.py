@@ -57,6 +57,94 @@ def build_index(force=False):
     print("[DONE] SigLIP index built.")
 
 
+# def evaluate_recall(force=False):
+#     if not force and RECALL_PATH.exists():
+#         print("[SKIP] Recall result already exists.")
+
+#         with open(
+#             RECALL_PATH,
+#             "r",
+#             encoding="utf-8",
+#         ) as f:
+#             metrics = json.load(f)
+
+#         print(json.dumps(metrics, indent=2))
+#         return
+
+#     if not INDEX_PATH.exists():
+#         raise FileNotFoundError(
+#             "SigLIP index not found."
+#         )
+
+#     if not EVAL_IDS_PATH.exists():
+#         raise FileNotFoundError(
+#             f"Evaluation ID file not found: "
+#             f"{EVAL_IDS_PATH}"
+#         )
+
+#     with open(
+#         EVAL_IDS_PATH,
+#         "r",
+#         encoding="utf-8",
+#     ) as f:
+#         eval_ids = json.load(f)
+
+#     print(
+#         f"Fixed evaluation questions: "
+#         f"{len(eval_ids)}"
+#     )
+
+#     processor = get_processor()
+
+#     retriever = Retriever(
+#         index_path=INDEX_PATH,
+#         metadata_path=METADATA_PATH,
+#         device="cuda",
+#     )
+
+#     evaluator = Evaluator(
+#         retriever.metadata
+#     )
+
+#     metrics = evaluator.evaluate_visual_retrieval(
+#         samples=processor.get_samples(),
+#         retriever=retriever,
+#         processor=processor,
+#         eval_ids=eval_ids,
+#         k=TOP_K,
+#     )
+
+#     RECALL_PATH.parent.mkdir(
+#         parents=True,
+#         exist_ok=True,
+#     )
+
+#     with open(
+#         RECALL_PATH,
+#         "w",
+#         encoding="utf-8",
+#     ) as f:
+#         json.dump(
+#             metrics,
+#             f,
+#             indent=2,
+#         )
+
+#     print(
+#         "\n===== SigLIP Recall ====="
+#     )
+
+#     print(
+#         json.dumps(
+#             metrics,
+#             indent=2,
+#         )
+#     )
+
+#     print(
+#         "[DONE] Recall evaluation finished."
+#     )
+
 def evaluate_recall(force=False):
     if not force and RECALL_PATH.exists():
         print("[SKIP] Recall result already exists.")
@@ -76,24 +164,6 @@ def evaluate_recall(force=False):
             "SigLIP index not found."
         )
 
-    if not EVAL_IDS_PATH.exists():
-        raise FileNotFoundError(
-            f"Evaluation ID file not found: "
-            f"{EVAL_IDS_PATH}"
-        )
-
-    with open(
-        EVAL_IDS_PATH,
-        "r",
-        encoding="utf-8",
-    ) as f:
-        eval_ids = json.load(f)
-
-    print(
-        f"Fixed evaluation questions: "
-        f"{len(eval_ids)}"
-    )
-
     processor = get_processor()
 
     retriever = Retriever(
@@ -106,11 +176,9 @@ def evaluate_recall(force=False):
         retriever.metadata
     )
 
-    metrics = evaluator.evaluate_visual_retrieval(
+    metrics = evaluator.evaluate_document_recall(
         samples=processor.get_samples(),
         retriever=retriever,
-        processor=processor,
-        eval_ids=eval_ids,
         k=TOP_K,
     )
 
@@ -131,15 +199,9 @@ def evaluate_recall(force=False):
         )
 
     print(
-        "\n===== SigLIP Recall ====="
+        "\n===== SigLIP Document Recall ====="
     )
-
-    print(
-        json.dumps(
-            metrics,
-            indent=2,
-        )
-    )
+    print(json.dumps(metrics, indent=2))
 
     print(
         "[DONE] Recall evaluation finished."

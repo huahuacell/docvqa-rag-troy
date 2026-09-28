@@ -228,3 +228,42 @@ class Evaluator:
             "missing_relevance": missing_relevance,
             "total_questions": len(samples),
         }
+    def evaluate_document_recall(
+        self,
+        samples,
+        retriever,
+        k=5,
+    ):
+        hits = 0
+        total = len(samples)
+
+        for i, sample in enumerate(samples, 1):
+            target_image = sample["image_local_name"]
+
+            retrieved = retriever.retrieve(
+                sample["question"],
+                top_k=k,
+            )
+
+            hit = any(
+                item["image_name"] == target_image
+                for item in retrieved[:k]
+            )
+
+            hits += int(hit)
+
+            if i % 100 == 0:
+                print(
+                    f"[{i}/{total}] "
+                    f"hits={hits}"
+                )
+
+        return {
+            f"document_recall@{k}": (
+                hits / total
+                if total
+                else 0
+            ),
+            "hits": hits,
+            "evaluated_questions": total,
+        }
