@@ -1,0 +1,56 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# VS Code
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment / secrets
+.env
+.env.*
+*.key
+
+# Dataset files
+data/images/
+data/ocr/
+data/chunks/
+
+# Downloaded model weights
+models/
+
+# Large archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# Model / vector index artifacts
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.index
+*.faiss
+
+# Generated experiment results
+results/*.index
+results/*.faiss
+results/*_metadata.json
+results/*_predictions.json
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,16 @@
+torch
+transformers
+accelerate
+pillow
+numpy
+faiss-cpu
+tqdm
+
+sentencepiece
+protobuf
+
+huggingface-hub>=1.5.0,<2.0
+hf-xet
+
+sentence-transformers
+openai
