@@ -1,9 +1,9 @@
-torch
-transformers
-accelerate
+transformers==5.17.0
+accelerate==1.15.0
+
 pillow
 numpy
-faiss-cpu
+faiss-cpu==1.15.1
 tqdm
 
 sentencepiece
@@ -12,5 +12,5 @@ protobuf
 huggingface-hub>=1.5.0,<2.0
 hf-xet
 
-sentence-transformers
+sentence-transformers>=6.0.0
 openai

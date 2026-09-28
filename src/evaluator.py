@@ -68,3 +68,157 @@ class Evaluator:
             "evaluated_questions": total,
             "total_questions": len(samples),
         }
+    @staticmethod
+    def point_in_bbox(x, y, bbox):
+        x1, y1, x2, y2 = bbox
+
+        return (
+            x1 <= x <= x2
+            and y1 <= y <= y2
+        )
+
+    def get_relevant_visual_chunks(
+        self,
+        sample,
+        processor,
+        lines_per_chunk=10,
+        overlap_lines=2,
+    ):
+        image_name = sample["image_local_name"]
+
+        answers = [
+            self.normalize(x)
+            for x in sample["answers"]
+        ]
+
+        # 和 Text RAG 完全一样的 OCR chunk 划分
+        ocr_chunks = processor.chunk_ocr(
+            image_name,
+            lines_per_chunk=lines_per_chunk,
+            overlap_lines=overlap_lines,
+        )
+
+        # 找包含 GT answer 的 OCR chunks
+        evidence_boxes = []
+
+        for chunk in ocr_chunks:
+            text = self.normalize(
+                chunk["text"]
+            )
+
+            if any(
+                answer and answer in text
+                for answer in answers
+            ):
+                evidence_boxes.append(
+                    chunk["bbox"]
+                )
+
+        # 与 Text Recall 一样：
+        # 找不到 GT evidence 的题不参与 Recall
+        if not evidence_boxes:
+            return set()
+
+        image_path = (
+            processor.image_dir
+            / image_name
+        )
+
+        from PIL import Image
+
+        with Image.open(image_path) as image:
+            width, height = image.size
+
+        relevant = set()
+
+        # Visual metadata 中 bbox 是 pixel 坐标
+        for item in self.metadata:
+            if item["image_name"] != image_name:
+                continue
+
+            x1, y1, x2, y2 = item["bbox"]
+
+            visual_bbox = [
+                x1 / width,
+                y1 / height,
+                x2 / width,
+                y2 / height,
+            ]
+
+            # OCR bbox 是 normalized [0,1]
+            # 用 evidence bbox 中心判断它落在哪个 visual chunk
+            for evidence in evidence_boxes:
+                cx = (
+                    evidence[0] + evidence[2]
+                ) / 2
+
+                cy = (
+                    evidence[1] + evidence[3]
+                ) / 2
+
+                if self.point_in_bbox(
+                    cx,
+                    cy,
+                    visual_bbox,
+                ):
+                    relevant.add(
+                        item["chunk_id"]
+                    )
+                    break
+
+        return relevant
+
+    def evaluate_visual_retrieval(
+        self,
+        samples,
+        retriever,
+        processor,
+        k=5,
+    ):
+        hits = 0
+        total = 0
+
+        for i, sample in enumerate(
+            samples,
+            1,
+        ):
+            relevant = (
+                self.get_relevant_visual_chunks(
+                    sample,
+                    processor,
+                )
+            )
+
+            if not relevant:
+                continue
+
+            retrieved = retriever.retrieve(
+                sample["question"],
+                top_k=k,
+            )
+
+            hits += self.recall_at_k(
+                retrieved,
+                relevant,
+                k,
+            )
+
+            total += 1
+
+            if i % 100 == 0:
+                print(
+                    f"[{i}/{len(samples)}] "
+                    f"hits={hits}, "
+                    f"evaluated={total}"
+                )
+
+        return {
+            f"recall@{k}": (
+                hits / total
+                if total
+                else 0
+            ),
+            "hits": hits,
+            "evaluated_questions": total,
+            "total_questions": len(samples),
+        }

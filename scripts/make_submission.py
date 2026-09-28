@@ -1,20 +1,42 @@
+import argparse
 import json
 from pathlib import Path
 
-PRED_PATH = Path("results/text_predictions.json")
-TEMPLATE_PATH = Path("eval/submissions/empty_results.json")
-OUTPUT_PATH = Path("eval/submissions/text_rag.json")
-
 
 def main():
-    with open(PRED_PATH, "r", encoding="utf-8") as f:
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--predictions",
+        required=True,
+        help="Path to predictions JSON",
+    )
+
+    parser.add_argument(
+        "--output",
+        required=True,
+        help="Path to output submission JSON",
+    )
+
+    parser.add_argument(
+        "--template",
+        default="eval/submissions/empty_results.json",
+        help="Path to official empty submission template",
+    )
+
+    args = parser.parse_args()
+
+    pred_path = Path(args.predictions)
+    template_path = Path(args.template)
+    output_path = Path(args.output)
+
+    with open(pred_path, "r", encoding="utf-8") as f:
         predictions = json.load(f)
 
-    with open(TEMPLATE_PATH, "r", encoding="utf-8") as f:
+    with open(template_path, "r", encoding="utf-8") as f:
         template = json.load(f)
 
     submission = []
-
     missing = 0
 
     for item in template:
@@ -31,9 +53,12 @@ def main():
             "answer": answer,
         })
 
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    output_path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
 
-    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         json.dump(
             submission,
             f,
@@ -43,7 +68,7 @@ def main():
 
     print(f"Submission size: {len(submission)}")
     print(f"Missing predictions: {missing}")
-    print(f"Saved to: {OUTPUT_PATH}")
+    print(f"Saved to: {output_path}")
 
 
 if __name__ == "__main__":
