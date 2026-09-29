@@ -1,10 +1,7 @@
 import argparse
 import json
 from pathlib import Path
-from concurrent.futures import (
-    ThreadPoolExecutor,
-    as_completed,
-)
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from src.data_processor import DataProcessor
 from src.colpali_indexer import ColPaliIndexer
@@ -29,12 +26,15 @@ RECALL_PATH = Path(
     "results/colpali_recall.json"
 )
 
+DETAILS_PATH = Path(
+    "results/"
+    "colpali_document_recall_details.json"
+)
+
 PREDICTION_PATH = Path(
     "results/colpali_predictions.json"
 )
-EVAL_IDS_PATH = Path(
-    "data/annotations/text_recall_eval_ids.json"
-)
+
 TOP_K = 5
 MAX_WORKERS = 5
 
@@ -74,11 +74,27 @@ def build_index():
         batch_size=2,
     )
 
+    print(
+        "[DONE] ColPali index built."
+    )
+
 
 def retrieve_all():
     processor = get_processor()
 
     samples = processor.get_samples()
+
+    if not METADATA_PATH.exists():
+        raise FileNotFoundError(
+            f"ColPali metadata not found: "
+            f"{METADATA_PATH}"
+        )
+
+    if not EMBEDDING_DIR.exists():
+        raise FileNotFoundError(
+            f"ColPali embeddings not found: "
+            f"{EMBEDDING_DIR}"
+        )
 
     retriever = ColPaliRetriever(
         embedding_dir=EMBEDDING_DIR,
@@ -113,6 +129,13 @@ def retrieve_all():
         f"{len(remaining)}"
     )
 
+    if not remaining:
+        print(
+            "[SKIP] All retrievals "
+            "already completed."
+        )
+        return
+
     for i, sample in enumerate(
         remaining,
         start=1,
@@ -126,7 +149,9 @@ def retrieve_all():
             top_k=TOP_K,
         )
 
-        retrievals[qid] = results
+        retrievals[
+            qid
+        ] = results
 
         print(
             f"[{len(retrievals)}/"
@@ -134,6 +159,7 @@ def retrieve_all():
             f"{qid}"
         )
 
+        # 每 5 题保存一次 checkpoint
         if i % 5 == 0:
             save_json(
                 RETRIEVAL_PATH,
@@ -145,126 +171,56 @@ def retrieve_all():
         retrievals,
     )
 
+    print(
+        "[DONE] ColPali retrieval finished."
+    )
 
-# def evaluate_recall():
-#     processor = get_processor()
-#     samples = processor.get_samples()
+    print(
+        f"Saved to: {RETRIEVAL_PATH}"
+    )
 
-#     with open(
-#         EVAL_IDS_PATH,
-#         "r",
-#         encoding="utf-8",
-#     ) as f:
-#         eval_ids = {
-#             str(qid)
-#             for qid in json.load(f)
-#         }
 
-#     print(
-#         f"Fixed evaluation questions: "
-#         f"{len(eval_ids)}"
-#     )
+def evaluate_recall(force=False):
+    if (
+        not force
+        and RECALL_PATH.exists()
+        and DETAILS_PATH.exists()
+    ):
+        print(
+            "[SKIP] ColPali recall and "
+            "details already exist."
+        )
 
-#     with open(
-#         METADATA_PATH,
-#         "r",
-#         encoding="utf-8",
-#     ) as f:
-#         metadata = json.load(f)
+        with open(
+            RECALL_PATH,
+            "r",
+            encoding="utf-8",
+        ) as f:
+            metrics = json.load(f)
 
-#     evaluator = Evaluator(
-#         metadata
-#     )
+        print(
+            json.dumps(
+                metrics,
+                indent=2,
+            )
+        )
 
-#     with open(
-#         RETRIEVAL_PATH,
-#         "r",
-#         encoding="utf-8",
-#     ) as f:
-#         retrievals = json.load(f)
+        return
 
-#     hits = 0
-#     total = 0
-#     missing_relevance = 0
-
-#     for sample in samples:
-#         qid = str(
-#             sample["questionId"]
-#         )
-
-#         if qid not in eval_ids:
-#             continue
-
-#         relevant = (
-#             evaluator
-#             .get_relevant_visual_chunks(
-#                 sample,
-#                 processor,
-#             )
-#         )
-
-#         # 和 SigLIP 完全同一规则
-#         if not relevant:
-#             missing_relevance += 1
-#             total += 1
-#             continue
-
-#         retrieved = retrievals[
-#             qid
-#         ]
-
-#         hits += evaluator.recall_at_k(
-#             retrieved,
-#             relevant,
-#             TOP_K,
-#         )
-
-#         total += 1
-
-#         if total % 100 == 0:
-#             print(
-#                 f"evaluated={total}, "
-#                 f"hits={hits}, "
-#                 f"missing_relevance="
-#                 f"{missing_relevance}"
-#             )
-
-#     metrics = {
-#         f"recall@{TOP_K}": (
-#             hits / total
-#             if total
-#             else 0
-#         ),
-#         "hits": hits,
-#         "evaluated_questions": total,
-#         "target_questions": len(eval_ids),
-#         "missing_relevance": missing_relevance,
-#         "total_questions": len(samples),
-#     }
-
-#     save_json(
-#         RECALL_PATH,
-#         metrics,
-#     )
-
-#     print(
-#         "\n===== ColPali Recall ====="
-#     )
-
-#     print(
-#         json.dumps(
-#             metrics,
-#             indent=2,
-#         )
-#     )
-def evaluate_recall():
     processor = get_processor()
+
     samples = processor.get_samples()
 
     if not RETRIEVAL_PATH.exists():
         raise FileNotFoundError(
             f"Retrieval cache not found: "
             f"{RETRIEVAL_PATH}"
+        )
+
+    if not METADATA_PATH.exists():
+        raise FileNotFoundError(
+            f"Metadata not found: "
+            f"{METADATA_PATH}"
         )
 
     with open(
@@ -281,11 +237,27 @@ def evaluate_recall():
     ) as f:
         retrievals = json.load(f)
 
+    print(
+        f"Cached retrievals: "
+        f"{len(retrievals)}"
+    )
+
+    if len(retrievals) != len(samples):
+        print(
+            "[WARNING] Retrieval cache "
+            "does not contain all questions."
+        )
+
+        print(
+            f"Expected: {len(samples)}, "
+            f"found: {len(retrievals)}"
+        )
+
     evaluator = Evaluator(
         metadata
     )
 
-    metrics = (
+    metrics, details = (
         evaluator
         .evaluate_document_recall_from_cache(
             samples=samples,
@@ -299,9 +271,16 @@ def evaluate_recall():
         metrics,
     )
 
-    print(
-        "\n===== ColPali Document Recall ====="
+    save_json(
+        DETAILS_PATH,
+        details,
     )
+
+    print(
+        "\n===== ColPali "
+        "Document Recall ====="
+    )
+
     print(
         json.dumps(
             metrics,
@@ -309,12 +288,29 @@ def evaluate_recall():
         )
     )
 
+    print(
+        f"Saved metrics to: "
+        f"{RECALL_PATH}"
+    )
+
+    print(
+        f"Saved details to: "
+        f"{DETAILS_PATH}"
+    )
+
+
 def generate_predictions():
     processor = get_processor()
 
     samples = (
         processor.get_samples()
     )
+
+    if not RETRIEVAL_PATH.exists():
+        raise FileNotFoundError(
+            f"Retrieval cache not found: "
+            f"{RETRIEVAL_PATH}"
+        )
 
     with open(
         RETRIEVAL_PATH,
@@ -354,10 +350,28 @@ def generate_predictions():
         f"{len(remaining)}"
     )
 
+    print(
+        f"Concurrency: "
+        f"{MAX_WORKERS}"
+    )
+
+    if not remaining:
+        print(
+            "[SKIP] All predictions "
+            "already completed."
+        )
+        return
+
     def process(sample):
         qid = str(
             sample["questionId"]
         )
+
+        if qid not in retrievals:
+            raise KeyError(
+                f"No retrieval result "
+                f"for question {qid}"
+            )
 
         contexts = retrievals[
             qid
@@ -426,6 +440,7 @@ def generate_predictions():
                     f"{qid}: {e}"
                 )
 
+            # Kaggle 更安全
             if i % 5 == 0:
                 save_json(
                     PREDICTION_PATH,
@@ -435,6 +450,22 @@ def generate_predictions():
     save_json(
         PREDICTION_PATH,
         predictions,
+    )
+
+    print(
+        "[DONE] ColPali "
+        "generation finished."
+    )
+
+    print(
+        f"Predictions: "
+        f"{len(predictions)}/"
+        f"{len(samples)}"
+    )
+
+    print(
+        f"Saved to: "
+        f"{PREDICTION_PATH}"
     )
 
 
@@ -462,7 +493,7 @@ def save_json(
         )
 
 
-def run_all():
+def run_all(force=False):
     print(
         "\n=== 1. ColPali Index ==="
     )
@@ -476,10 +507,12 @@ def run_all():
     retrieve_all()
 
     print(
-        "\n=== 3. Recall@5 ==="
+        "\n=== 3. Document Recall@5 ==="
     )
 
-    evaluate_recall()
+    evaluate_recall(
+        force=force
+    )
 
     print(
         "\n=== 4. Generation ==="
@@ -507,10 +540,21 @@ def main():
         default="all",
     )
 
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help=(
+            "Recompute completed "
+            "recall evaluation."
+        ),
+    )
+
     args = parser.parse_args()
 
     if args.mode == "all":
-        run_all()
+        run_all(
+            force=args.force
+        )
 
     elif args.mode == "index":
         build_index()
@@ -519,7 +563,9 @@ def main():
         retrieve_all()
 
     elif args.mode == "recall":
-        evaluate_recall()
+        evaluate_recall(
+            force=args.force
+        )
 
     elif args.mode == "generate":
         generate_predictions()

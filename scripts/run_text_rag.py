@@ -11,9 +11,12 @@ from src.evaluator import Evaluator
 
 INDEX_PATH = Path("results/text.index")
 METADATA_PATH = Path("results/text_metadata.json")
-RECALL_PATH = Path("results/text_document_recall.json")
-PREDICTION_PATH = Path("results/text_predictions.json")
 
+PREDICTION_PATH = Path("results/text_predictions.json")
+RECALL_PATH = Path("results/text_document_recall.json")
+DETAILS_PATH = Path(
+    "results/text_document_recall_details.json"
+)
 TOP_K = 5
 MAX_WORKERS = 5
 
@@ -26,9 +29,8 @@ def get_processor():
         ocr_dir="data/ocr",
     )
 
-
 def evaluate_document_recall(force=False):
-    if not force and RECALL_PATH.exists():
+    if not force and RECALL_PATH.exists() and DETAILS_PATH.exists():
         print("[SKIP] Text document recall already exists.")
 
         with open(RECALL_PATH, "r", encoding="utf-8") as f:
@@ -58,7 +60,7 @@ def evaluate_document_recall(force=False):
         retriever.metadata
     )
 
-    metrics = evaluator.evaluate_document_recall(
+    metrics, details = evaluator.evaluate_document_recall(
         samples=processor.get_samples(),
         retriever=retriever,
         k=TOP_K,
@@ -81,9 +83,22 @@ def evaluate_document_recall(force=False):
             indent=2,
         )
 
+    with open(
+        DETAILS_PATH,
+        "w",
+        encoding="utf-8",
+    ) as f:
+        json.dump(
+            details,
+            f,
+            ensure_ascii=False,
+            indent=2,
+        )
+
     print("\n===== Text Document Recall =====")
     print(json.dumps(metrics, indent=2))
-    print(f"Saved to: {RECALL_PATH}")
+    print(f"Saved metrics to: {RECALL_PATH}")
+    print(f"Saved details to: {DETAILS_PATH}")
 
 
 def save_predictions(predictions):

@@ -12,18 +12,29 @@ from src.evaluator import Evaluator
 
 INDEX_PATH = Path("results/siglip.index")
 METADATA_PATH = Path("results/siglip_metadata.json")
-RECALL_PATH = Path("results/siglip_recall.json")
-PREDICTION_PATH = Path("results/siglip_predictions.json")
-EVAL_IDS_PATH = Path(
-    "data/annotations/text_recall_eval_ids.json"
+
+RECALL_PATH = Path(
+    "results/siglip_recall.json"
 )
+
+DETAILS_PATH = Path(
+    "results/siglip_document_recall_details.json"
+)
+
+PREDICTION_PATH = Path(
+    "results/siglip_predictions.json"
+)
+
 TOP_K = 5
 MAX_WORKERS = 5
 
 
 def get_processor():
     return DataProcessor(
-        annotation_path="data/annotations/infographicsVQA_val_v1.0_withQT.json",
+        annotation_path=(
+            "data/annotations/"
+            "infographicsVQA_val_v1.0_withQT.json"
+        ),
         image_dir="data/images",
         chunk_dir="data/chunks",
         ocr_dir="data/ocr",
@@ -36,16 +47,22 @@ def build_index(force=False):
         and INDEX_PATH.exists()
         and METADATA_PATH.exists()
     ):
-        print("[SKIP] SigLIP index already exists.")
+        print(
+            "[SKIP] SigLIP index already exists."
+        )
         return
 
     processor = get_processor()
 
     chunks = processor.build_chunks()
 
-    print(f"Total visual chunks: {len(chunks)}")
+    print(
+        f"Total visual chunks: {len(chunks)}"
+    )
 
-    indexer = Indexer(device="cuda")
+    indexer = Indexer(
+        device="cuda"
+    )
 
     indexer.build(
         chunks=chunks,
@@ -54,100 +71,21 @@ def build_index(force=False):
         batch_size=16,
     )
 
-    print("[DONE] SigLIP index built.")
+    print(
+        "[DONE] SigLIP index built."
+    )
 
-
-# def evaluate_recall(force=False):
-#     if not force and RECALL_PATH.exists():
-#         print("[SKIP] Recall result already exists.")
-
-#         with open(
-#             RECALL_PATH,
-#             "r",
-#             encoding="utf-8",
-#         ) as f:
-#             metrics = json.load(f)
-
-#         print(json.dumps(metrics, indent=2))
-#         return
-
-#     if not INDEX_PATH.exists():
-#         raise FileNotFoundError(
-#             "SigLIP index not found."
-#         )
-
-#     if not EVAL_IDS_PATH.exists():
-#         raise FileNotFoundError(
-#             f"Evaluation ID file not found: "
-#             f"{EVAL_IDS_PATH}"
-#         )
-
-#     with open(
-#         EVAL_IDS_PATH,
-#         "r",
-#         encoding="utf-8",
-#     ) as f:
-#         eval_ids = json.load(f)
-
-#     print(
-#         f"Fixed evaluation questions: "
-#         f"{len(eval_ids)}"
-#     )
-
-#     processor = get_processor()
-
-#     retriever = Retriever(
-#         index_path=INDEX_PATH,
-#         metadata_path=METADATA_PATH,
-#         device="cuda",
-#     )
-
-#     evaluator = Evaluator(
-#         retriever.metadata
-#     )
-
-#     metrics = evaluator.evaluate_visual_retrieval(
-#         samples=processor.get_samples(),
-#         retriever=retriever,
-#         processor=processor,
-#         eval_ids=eval_ids,
-#         k=TOP_K,
-#     )
-
-#     RECALL_PATH.parent.mkdir(
-#         parents=True,
-#         exist_ok=True,
-#     )
-
-#     with open(
-#         RECALL_PATH,
-#         "w",
-#         encoding="utf-8",
-#     ) as f:
-#         json.dump(
-#             metrics,
-#             f,
-#             indent=2,
-#         )
-
-#     print(
-#         "\n===== SigLIP Recall ====="
-#     )
-
-#     print(
-#         json.dumps(
-#             metrics,
-#             indent=2,
-#         )
-#     )
-
-#     print(
-#         "[DONE] Recall evaluation finished."
-#     )
 
 def evaluate_recall(force=False):
-    if not force and RECALL_PATH.exists():
-        print("[SKIP] Recall result already exists.")
+    if (
+        not force
+        and RECALL_PATH.exists()
+        and DETAILS_PATH.exists()
+    ):
+        print(
+            "[SKIP] SigLIP recall and details "
+            "already exist."
+        )
 
         with open(
             RECALL_PATH,
@@ -156,12 +94,25 @@ def evaluate_recall(force=False):
         ) as f:
             metrics = json.load(f)
 
-        print(json.dumps(metrics, indent=2))
+        print(
+            json.dumps(
+                metrics,
+                indent=2,
+            )
+        )
+
         return
 
     if not INDEX_PATH.exists():
         raise FileNotFoundError(
-            "SigLIP index not found."
+            f"SigLIP index not found: "
+            f"{INDEX_PATH}"
+        )
+
+    if not METADATA_PATH.exists():
+        raise FileNotFoundError(
+            f"SigLIP metadata not found: "
+            f"{METADATA_PATH}"
         )
 
     processor = get_processor()
@@ -176,10 +127,12 @@ def evaluate_recall(force=False):
         retriever.metadata
     )
 
-    metrics = evaluator.evaluate_document_recall(
-        samples=processor.get_samples(),
-        retriever=retriever,
-        k=TOP_K,
+    metrics, details = (
+        evaluator.evaluate_document_recall(
+            samples=processor.get_samples(),
+            retriever=retriever,
+            k=TOP_K,
+        )
     )
 
     RECALL_PATH.parent.mkdir(
@@ -195,17 +148,47 @@ def evaluate_recall(force=False):
         json.dump(
             metrics,
             f,
+            ensure_ascii=False,
+            indent=2,
+        )
+
+    with open(
+        DETAILS_PATH,
+        "w",
+        encoding="utf-8",
+    ) as f:
+        json.dump(
+            details,
+            f,
+            ensure_ascii=False,
             indent=2,
         )
 
     print(
         "\n===== SigLIP Document Recall ====="
     )
-    print(json.dumps(metrics, indent=2))
+
+    print(
+        json.dumps(
+            metrics,
+            indent=2,
+        )
+    )
+
+    print(
+        f"Saved metrics to: "
+        f"{RECALL_PATH}"
+    )
+
+    print(
+        f"Saved details to: "
+        f"{DETAILS_PATH}"
+    )
 
     print(
         "[DONE] Recall evaluation finished."
     )
+
 
 def save_predictions(predictions):
     PREDICTION_PATH.parent.mkdir(
@@ -228,7 +211,14 @@ def save_predictions(predictions):
 
 def generate_predictions():
     processor = get_processor()
+
     samples = processor.get_samples()
+
+    if not INDEX_PATH.exists():
+        raise FileNotFoundError(
+            f"SigLIP index not found: "
+            f"{INDEX_PATH}"
+        )
 
     retriever = Retriever(
         index_path=INDEX_PATH,
@@ -257,16 +247,34 @@ def generate_predictions():
         not in predictions
     ]
 
-    print(f"Total: {len(samples)}")
-    print(f"Completed: {len(predictions)}")
-    print(f"Remaining: {len(remaining)}")
+    print(
+        f"Total: {len(samples)}"
+    )
+
+    print(
+        f"Completed: {len(predictions)}"
+    )
+
+    print(
+        f"Remaining: {len(remaining)}"
+    )
+
+    print(
+        f"Concurrency: {MAX_WORKERS}"
+    )
 
     if not remaining:
-        print("[SKIP] All predictions already completed.")
+        print(
+            "[SKIP] All predictions "
+            "already completed."
+        )
         return
 
     def process(sample):
-        qid = str(sample["questionId"])
+        qid = str(
+            sample["questionId"]
+        )
+
         question = sample["question"]
 
         contexts = retriever.retrieve(
@@ -274,13 +282,17 @@ def generate_predictions():
             top_k=TOP_K,
         )
 
-        answer = generator.generate_visual(
-            question,
-            contexts,
+        answer = (
+            generator.generate_visual(
+                question,
+                contexts,
+            )
         )
 
         return qid, {
-            "questionId": sample["questionId"],
+            "questionId": (
+                sample["questionId"]
+            ),
             "question": question,
             "answer": answer,
         }
@@ -290,7 +302,10 @@ def generate_predictions():
     ) as executor:
 
         futures = {
-            executor.submit(process, sample): sample
+            executor.submit(
+                process,
+                sample,
+            ): sample
             for sample in remaining
         }
 
@@ -299,45 +314,82 @@ def generate_predictions():
             start=1,
         ):
             sample = futures[future]
-            qid = str(sample["questionId"])
+
+            qid = str(
+                sample["questionId"]
+            )
 
             try:
-                key, result = future.result()
-                predictions[key] = result
+                key, result = (
+                    future.result()
+                )
+
+                predictions[
+                    key
+                ] = result
 
                 print(
-                    f"[{len(predictions)}/{len(samples)}] "
-                    f"{key}: {result['answer']}"
+                    f"[{len(predictions)}/"
+                    f"{len(samples)}] "
+                    f"{key}: "
+                    f"{result['answer']}"
                 )
 
             except Exception as e:
                 print(
-                    f"[ERROR] {qid}: {e}"
+                    f"[ERROR] "
+                    f"{qid}: {e}"
                 )
 
-            # 更频繁保存，Kaggle 更安全
+            # Kaggle 上更频繁保存
             if i % 5 == 0:
-                save_predictions(predictions)
+                save_predictions(
+                    predictions
+                )
 
-    save_predictions(predictions)
+    save_predictions(
+        predictions
+    )
 
     print(
         f"[DONE] Predictions: "
-        f"{len(predictions)}/{len(samples)}"
+        f"{len(predictions)}/"
+        f"{len(samples)}"
+    )
+
+    print(
+        f"Saved to: "
+        f"{PREDICTION_PATH}"
     )
 
 
 def run_all(force=False):
-    print("\n=== Stage 1: SigLIP Index ===")
-    build_index(force=force)
+    print(
+        "\n=== Stage 1: SigLIP Index ==="
+    )
 
-    print("\n=== Stage 2: Recall@5 ===")
-    evaluate_recall(force=force)
+    build_index(
+        force=force
+    )
 
-    print("\n=== Stage 3: Generation ===")
+    print(
+        "\n=== Stage 2: "
+        "Document Recall@5 ==="
+    )
+
+    evaluate_recall(
+        force=force
+    )
+
+    print(
+        "\n=== Stage 3: Generation ==="
+    )
+
     generate_predictions()
 
-    print("\n=== Baseline 2 Finished ===")
+    print(
+        "\n=== Baseline 2 Finished ==="
+    )
 
 
 def main():
@@ -357,19 +409,28 @@ def main():
     parser.add_argument(
         "--force",
         action="store_true",
-        help="Recompute completed index/recall stages.",
+        help=(
+            "Recompute completed "
+            "index/recall stages."
+        ),
     )
 
     args = parser.parse_args()
 
     if args.mode == "all":
-        run_all(force=args.force)
+        run_all(
+            force=args.force
+        )
 
     elif args.mode == "index":
-        build_index(force=args.force)
+        build_index(
+            force=args.force
+        )
 
     elif args.mode == "recall":
-        evaluate_recall(force=args.force)
+        evaluate_recall(
+            force=args.force
+        )
 
     elif args.mode == "generate":
         generate_predictions()
