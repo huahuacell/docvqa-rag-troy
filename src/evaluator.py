@@ -309,3 +309,82 @@ class Evaluator:
         }
 
         return metrics, details
+    def evaluate_document_recall_from_cache(
+        self,
+        samples,
+        retrievals,
+        k=5,
+    ):
+        hits = 0
+        total = len(samples)
+        details = {}
+
+        for i, sample in enumerate(samples, 1):
+            qid = str(sample["questionId"])
+            question = sample["question"]
+            target_image = sample["image_local_name"]
+
+            retrieved = retrievals.get(qid, [])[:k]
+
+            retrieved_items = []
+            hit = False
+
+            for rank, item in enumerate(
+                retrieved,
+                start=1,
+            ):
+                image_name = item["image_name"]
+
+                if image_name == target_image:
+                    hit = True
+
+                retrieved_item = {
+                    "rank": rank,
+                    "image_name": image_name,
+                }
+
+                if "chunk_id" in item:
+                    retrieved_item["chunk_id"] = item["chunk_id"]
+
+                if "score" in item:
+                    retrieved_item["score"] = float(
+                        item["score"]
+                    )
+
+                if "bbox" in item:
+                    retrieved_item["bbox"] = item["bbox"]
+
+                if "text" in item:
+                    retrieved_item["text"] = item["text"]
+
+                retrieved_items.append(
+                    retrieved_item
+                )
+
+            hits += int(hit)
+
+            details[qid] = {
+                "questionId": sample["questionId"],
+                "question": question,
+                "target_image": target_image,
+                "hit": hit,
+                "retrieved": retrieved_items,
+            }
+
+            if i % 100 == 0:
+                print(
+                    f"[{i}/{total}] "
+                    f"hits={hits}"
+                )
+
+        metrics = {
+            f"document_recall@{k}": (
+                hits / total
+                if total
+                else 0
+            ),
+            "hits": hits,
+            "evaluated_questions": total,
+        }
+
+        return metrics, details

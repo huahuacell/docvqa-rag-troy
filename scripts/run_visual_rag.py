@@ -61,7 +61,8 @@ def build_index(force=False):
     )
 
     indexer = Indexer(
-        device="cuda"
+        # device="cuda"
+        device="cpu"
     )
 
     indexer.build(
@@ -120,7 +121,8 @@ def evaluate_recall(force=False):
     retriever = Retriever(
         index_path=INDEX_PATH,
         metadata_path=METADATA_PATH,
-        device="cuda",
+        # device="cuda",
+        device="cpu",
     )
 
     evaluator = Evaluator(
@@ -223,7 +225,8 @@ def generate_predictions():
     retriever = Retriever(
         index_path=INDEX_PATH,
         metadata_path=METADATA_PATH,
-        device="cuda",
+        # device="cuda",
+        device="cpu",
     )
 
     generator = Generator(
