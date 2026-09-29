@@ -1,0 +1,213 @@
+{
+  "questionId": 91220,
+  "question": "who is the player in this picture?",
+  "ground_truth": [
+    "root"
+  ],
+  "target_image": "41938.jpeg",
+  "methods": {
+    "text": {
+      "hit": false,
+      "prediction": "Usain Bolt",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "42012.jpeg",
+          "chunk_id": "42012_text_0004",
+          "score": 0.3951317071914673,
+          "bbox": [
+            0.2096850723028183,
+            0.4188179671764374,
+            0.9662694334983826,
+            0.45661741495132446
+          ],
+          "text": "Feb -March, 1996 his In World Cup, Player of the Opens first Second World Cup www. facebook com/ Third World Cup match vs Pakistan (54*) A SINGER"
+        },
+        {
+          "rank": 2,
+          "image_name": "45134.jpeg",
+          "chunk_id": "45134_text_0005",
+          "score": 0.39423316717147827,
+          "bbox": [
+            0.04677830636501312,
+            0.26506030559539795,
+            0.8855739831924438,
+            0.32111051585525274
+          ],
+          "text": "Rasel Spain O Height 6kle Height Weight 188 a Weight Plays Plays Turned Pro"
+        },
+        {
+          "rank": 3,
+          "image_name": "44700.jpeg",
+          "chunk_id": "44700_text_0007",
+          "score": 0.38405895233154297,
+          "bbox": [
+            0.5387747287750244,
+            0.8291720747947693,
+            0.9303001649677753,
+            0.9276087433099747
+          ],
+          "text": "Usain Johnson WR Bolt (USA) Atlanta, (JAM) 1996 Berlin, 2009 19.32 19.19"
+        },
+        {
+          "rank": 4,
+          "image_name": "41578.jpeg",
+          "chunk_id": "41578_text_0073",
+          "score": 0.3815416097640991,
+          "bbox": [
+            0.26090121269226074,
+            0.6847115755081177,
+            0.896568775177002,
+            0.6975978016853333
+          ],
+          "text": "(Benchley) (Orwell) (Bolano) (Niffenegger) (Condon) The The Lions of TWOWARS a Discworld PSYCHO"
+        },
+        {
+          "rank": 5,
+          "image_name": "42097.jpeg",
+          "chunk_id": "42097_text_0008",
+          "score": 0.3810309171676636,
+          "bbox": [
+            0.19170551002025604,
+            0.3563844859600067,
+            0.8413926064968109,
+            0.4036760223098099
+          ],
+          "text": "Test team 2008 inaugural T20 ir in South Africal Africa 1198 Rtens Dills C 1198 been players have Captains their"
+        }
+      ]
+    },
+    "siglip": {
+      "hit": false,
+      "prediction": "MS Dhoni",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "42097.jpeg",
+          "chunk_id": "42097_0023",
+          "score": 0.09987596422433853,
+          "bbox": [
+            732,
+            7040,
+            1500,
+            7808
+          ]
+        },
+        {
+          "rank": 2,
+          "image_name": "42097.jpeg",
+          "chunk_id": "42097_0001",
+          "score": 0.09840349853038788,
+          "bbox": [
+            732,
+            0,
+            1500,
+            768
+          ]
+        },
+        {
+          "rank": 3,
+          "image_name": "42097.jpeg",
+          "chunk_id": "42097_0002",
+          "score": 0.08999523520469666,
+          "bbox": [
+            0,
+            640,
+            768,
+            1408
+          ]
+        },
+        {
+          "rank": 4,
+          "image_name": "42097.jpeg",
+          "chunk_id": "42097_0022",
+          "score": 0.08892984688282013,
+          "bbox": [
+            0,
+            7040,
+            768,
+            7808
+          ]
+        },
+        {
+          "rank": 5,
+          "image_name": "42097.jpeg",
+          "chunk_id": "42097_0006",
+          "score": 0.0884852185845375,
+          "bbox": [
+            0,
+            1920,
+            768,
+            2688
+          ]
+        }
+      ]
+    },
+    "colpali": {
+      "hit": false,
+      "prediction": "Sachin Tendulkar",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "42097.jpeg",
+          "chunk_id": "42097_0027",
+          "score": 17.03125,
+          "bbox": [
+            732,
+            8239,
+            1500,
+            9007
+          ]
+        },
+        {
+          "rank": 2,
+          "image_name": "42097.jpeg",
+          "chunk_id": "42097_0000",
+          "score": 16.8125,
+          "bbox": [
+            0,
+            0,
+            768,
+            768
+          ]
+        },
+        {
+          "rank": 3,
+          "image_name": "42097.jpeg",
+          "chunk_id": "42097_0001",
+          "score": 16.484375,
+          "bbox": [
+            732,
+            0,
+            1500,
+            768
+          ]
+        },
+        {
+          "rank": 4,
+          "image_name": "42097.jpeg",
+          "chunk_id": "42097_0023",
+          "score": 16.0625,
+          "bbox": [
+            732,
+            7040,
+            1500,
+            7808
+          ]
+        },
+        {
+          "rank": 5,
+          "image_name": "42097.jpeg",
+          "chunk_id": "42097_0006",
+          "score": 15.3828125,
+          "bbox": [
+            0,
+            1920,
+            768,
+            2688
+          ]
+        }
+      ]
+    }
+  }
+}

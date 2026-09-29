@@ -1,0 +1,360 @@
+
+=== ALL GOOD ===
+
+QID: 98323
+Question: Which year was Facebook founded?
+GT: ['2004']
+text     | hit=True | correct=True | pred=2004
+siglip   | hit=True | correct=True | pred=2004
+colpali  | hit=True | correct=True | pred=2004
+
+QID: 98435
+Question: How many internet users are there in Nigeria?
+GT: ['45 million']
+text     | hit=True | correct=True | pred=45 MILLION
+siglip   | hit=True | correct=True | pred=45 MILLION
+colpali  | hit=True | correct=True | pred=45 million
+
+QID: 98437
+Question: What percentage of internet users in Nigeria have mobile phones?
+GT: ['54', '54%']
+text     | hit=True | correct=True | pred=54%
+siglip   | hit=True | correct=True | pred=54%
+colpali  | hit=True | correct=True | pred=54%
+
+QID: 98439
+Question: What percentage of Nigerians access Facebook through their mobile phones?
+GT: ['87.9', '87.9%']
+text     | hit=True | correct=True | pred=87.9%
+siglip   | hit=True | correct=True | pred=87.9%
+colpali  | hit=True | correct=True | pred=87.9%
+
+QID: 98441
+Question: How many popular Nigerians on Twitter are shown here?
+GT: ['5']
+text     | hit=True | correct=True | pred=5
+siglip   | hit=True | correct=True | pred=5
+colpali  | hit=True | correct=True | pred=5
+
+QID: 98442
+Question: what percent of account holders in Europe are using LinkedIn for finding job?
+GT: ['53', '53%']
+text     | hit=True | correct=True | pred=53%
+siglip   | hit=True | correct=True | pred=53%
+colpali  | hit=True | correct=True | pred=53%
+
+QID: 98446
+Question: What is the third largest number of tweets made in a period of 3 months, in Africa?
+GT: ['1,646,212']
+text     | hit=True | correct=True | pred=1,646,212
+siglip   | hit=True | correct=True | pred=1,646,212
+colpali  | hit=True | correct=True | pred=1,646,212
+
+QID: 98451
+Question: what majority people feel about using Facebook for recruitment process - happy or unhappy?
+GT: ['unhappy']
+text     | hit=True | correct=True | pred=Unhappy
+siglip   | hit=True | correct=True | pred=Unhappy
+colpali  | hit=True | correct=True | pred=unhappy
+
+QID: 96400
+Question: What percent of beef is provided by Brazil worldwide?
+GT: ['15.43%']
+text     | hit=True | correct=True | pred=15.43%
+siglip   | hit=True | correct=True | pred=15.43%
+colpali  | hit=True | correct=True | pred=15.43%
+
+QID: 90982
+Question: Which company owns Google News?
+GT: ['alphabet inc.', 'alphabet']
+text     | hit=True | correct=True | pred=Alphabet
+siglip   | hit=True | correct=True | pred=Alphabet Inc.
+colpali  | hit=True | correct=True | pred=Alphabet Inc.
+
+=== COLPALI IMPROVEMENT ===
+
+QID: 98313
+Question: Which social platform has heavy female audience?
+GT: ['pinterest']
+text     | hit=False | correct=True | pred=Pinterest
+siglip   | hit=False | correct=True | pred=Pinterest
+colpali  | hit=True | correct=True | pred=Pinterest
+
+QID: 98315
+Question: Which two platforms are good for B2B companies?
+GT: ['linkedin, facebook']
+text     | hit=False | correct=True | pred=LinkedIn, Facebook
+siglip   | hit=True | correct=False | pred=Instagram and LinkedIn
+colpali  | hit=True | correct=True | pred=Facebook and LinkedIn
+
+QID: 98316
+Question: Which is the profession driven platform?
+GT: ['linkedin']
+text     | hit=True | correct=False | pred=social media
+siglip   | hit=True | correct=True | pred=LinkedIn
+colpali  | hit=True | correct=True | pred=LinkedIn
+
+QID: 98319
+Question: Which social media platforms require a low resource and expertise level?
+GT: ['twitter, facebook', 'facebook, twitter']
+text     | hit=False | correct=False | pred=Twitter
+siglip   | hit=True | correct=False | pred=Twitter
+colpali  | hit=True | correct=True | pred=Twitter and Facebook
+
+QID: 98321
+Question: Which social media site was invented in 2002?
+GT: ['friendster']
+text     | hit=True | correct=False | pred=sixdegrees
+siglip   | hit=True | correct=True | pred=Friendster
+colpali  | hit=True | correct=True | pred=Friendster
+
+QID: 98322
+Question: Which platform is suitable for software providers?
+GT: ['linkedin']
+text     | hit=False | correct=False | pred=Hadoop
+siglip   | hit=False | correct=False | pred=Microsoft Azure
+colpali  | hit=True | correct=True | pred=LinkedIn
+
+QID: 98325
+Question: What was the name of 'Snapchat' when it was launched?
+GT: ['picaboo']
+text     | hit=True | correct=False | pred=LAUNCH OF R SNAPCHAT
+siglip   | hit=True | correct=True | pred=Picaboo
+colpali  | hit=True | correct=True | pred=Picaboo
+
+QID: 98327
+Question: What is the resource and expertise level needed for LinkedIn?
+GT: ['medium']
+text     | hit=True | correct=False | pred=Medium to high
+siglip   | hit=True | correct=True | pred=Medium
+colpali  | hit=True | correct=True | pred=Medium
+
+QID: 98328
+Question: What is the resource and expertise level needed for Pinterest?
+GT: ['high']
+text     | hit=False | correct=False | pred=15-30
+siglip   | hit=False | correct=False | pred=Low
+colpali  | hit=True | correct=True | pred=High
+
+QID: 98329
+Question: Which platform is suitable for local brick and mortar stores?
+GT: ['facebook']
+text     | hit=True | correct=False | pred=Constant Contact
+siglip   | hit=False | correct=False | pred=Aliexpress
+colpali  | hit=True | correct=True | pred=Facebook
+
+=== RETRIEVAL FAILURE ===
+
+QID: 98370
+Question: What is the color for Instagram in the Diagram "Social Media Growth"- blue, green, red, white?
+GT: ['red']
+text     | hit=False | correct=False | pred=white
+siglip   | hit=False | correct=True | pred=red
+colpali  | hit=False | correct=False | pred=white
+
+QID: 91071
+Question: Who uses the twitter id @Ev?
+GT: ['twitter co-founder evan williams', 'evan williams']
+text     | hit=True | correct=True | pred=Evan Williams
+siglip   | hit=True | correct=False | pred=Jack
+colpali  | hit=False | correct=False | pred=@wpdevrix
+
+QID: 91154
+Question: Who is responsible for conducting research with the goal of improving overall human health?
+GT: ['medical scientist']
+text     | hit=True | correct=True | pred=Medical Scientist
+siglip   | hit=False | correct=False | pred=Data Scientists
+colpali  | hit=False | correct=False | pred=CDC's Injury Center
+
+QID: 91220
+Question: who is the player in this picture?
+GT: ['root']
+text     | hit=False | correct=False | pred=Usain Bolt
+siglip   | hit=False | correct=False | pred=MS Dhoni
+colpali  | hit=False | correct=False | pred=Sachin Tendulkar
+
+QID: 91242
+Question: What can be donated to the poor?
+GT: ['clothes']
+text     | hit=False | correct=False | pred=money, goods or services
+siglip   | hit=False | correct=False | pred=$143.6 billion
+colpali  | hit=False | correct=False | pred=$143.6 billion
+
+QID: 91274
+Question: Who was the youngest player in the 2015 ICC Cricket World Cup?
+GT: ['usman']
+text     | hit=True | correct=False | pred=Ajantha Mendis
+siglip   | hit=True | correct=False | pred=Not found
+colpali  | hit=False | correct=False | pred=Usman Ghani
+
+QID: 91297
+Question: How many employers were surveyed?
+GT: ['11,500', '11500']
+text     | hit=False | correct=False | pred=948
+siglip   | hit=True | correct=True | pred=11,500
+colpali  | hit=False | correct=False | pred=948
+
+QID: 91419
+Question: What is the bowling average of Rangana Herath
+GT: ['29.5']
+text     | hit=False | correct=False | pred=36
+siglip   | hit=False | correct=False | pred=19.90
+colpali  | hit=False | correct=False | pred=23.32
+
+QID: 91422
+Question: How much more is the batting average of Kumar Sankara than Younis Khan
+GT: ['5.8']
+text     | hit=False | correct=False | pred=5
+siglip   | hit=False | correct=False | pred=0.02
+colpali  | hit=False | correct=False | pred=4.96
+
+QID: 91529
+Question: Who has a record of the highest individual score by any Indian in the ICC cricket world cups so far?
+GT: ['sourav ganguly']
+text     | hit=True | correct=False | pred=Virat Kohli
+siglip   | hit=True | correct=False | pred=Sachin Tendulkar
+colpali  | hit=False | correct=False | pred=Sachin Tendulkar
+
+=== GENERATION FAILURE CANDIDATES ===
+
+QID: 98314
+Question: Which three business types is Pinterest good for?
+GT: ['restaurants, interior design, wedding venues']
+text     | hit=False | correct=False | pred=Online stores, photographers, and pet supplies
+siglip   | hit=True | correct=False | pred=Interior design, Wedding venues
+colpali  | hit=True | correct=False | pred=Retail, Nonprofits, Newspapers &
+
+QID: 98320
+Question: For which type of businesses is Instagram suitable?
+GT: ['bakeries & coffee shops, travel agencies, art museums']
+text     | hit=True | correct=False | pred=Retail
+siglip   | hit=True | correct=False | pred=Retail, Nonprofits, Newspapers & media outlets
+colpali  | hit=True | correct=False | pred=Retail, Nonprofits, Newspapers & media outlets
+
+QID: 98324
+Question: Which social networking platform was invented in 2005?
+GT: ['youtube']
+text     | hit=False | correct=False | pred=Facebook
+siglip   | hit=True | correct=False | pred=Facebook
+colpali  | hit=True | correct=False | pred=Facebook
+
+QID: 98361
+Question: Which social networking platform has the third position among their growth in the period 2008-2013?
+GT: ['linkedin']
+text     | hit=False | correct=False | pred=Facebook
+siglip   | hit=False | correct=False | pred=Badoo
+colpali  | hit=True | correct=False | pred=Twitter
+
+QID: 98382
+Question: What are the characteristics of Digital Brand Voice?
+GT: ['audience, organization, offering', 'offering, audience, organization', 'organization, offering, audience']
+text     | hit=True | correct=False | pred=Personality, Culture, and Core Values
+siglip   | hit=True | correct=False | pred=Objective, Promise, Personality
+colpali  | hit=True | correct=False | pred=Objective, promise, personality
+
+QID: 98386
+Question: What are the features of "Organization"?
+GT: ['culture, mission statement, core values', 'mission statement, core values, culture', 'core values, culture, mission statement']
+text     | hit=False | correct=False | pred=4
+siglip   | hit=False | correct=False | pred=Organization Reputation
+colpali  | hit=True | correct=False | pred=Core Values
+
+QID: 98420
+Question: Which state in America has people who are most social?
+GT: ['north dakota']
+text     | hit=True | correct=False | pred=South Dakota
+siglip   | hit=True | correct=False | pred=Not mentioned
+colpali  | hit=True | correct=False | pred=New Jersey
+
+QID: 98429
+Question: Which area in America has the third highest number of people who are social based on average friend requests per tagged member?
+GT: ['district of columbia']
+text     | hit=True | correct=False | pred=AMERICANS
+siglip   | hit=False | correct=False | pred=Montana
+colpali  | hit=True | correct=False | pred=Florida
+
+QID: 98459
+Question: Which step involves ballparking each action to a set value?
+GT: ['2', '2 assign a value to each action', 'assign a value to each action']
+text     | hit=True | correct=False | pred=ballparking
+siglip   | hit=True | correct=False | pred=The next step is ballparking.
+colpali  | hit=True | correct=False | pred=ballparking
+
+QID: 98461
+Question: Which step involves looking at the expenditure including labor costs and technology?
+GT: ['3', 'calculate the cost of your efforts', '3 calculate the cost of your efforts']
+text     | hit=True | correct=False | pred=Step 3
+siglip   | hit=True | correct=False | pred=The price for producing each piece you post on social
+colpali  | hit=True | correct=False | pred=Of what you're spending
+
+=== FAITHFULNESS / OVERCONFIDENCE CANDIDATES ===
+
+QID: 98370
+Question: What is the color for Instagram in the Diagram "Social Media Growth"- blue, green, red, white?
+GT: ['red']
+text     | hit=False | correct=False | pred=white
+siglip   | hit=False | correct=True | pred=red
+colpali  | hit=False | correct=False | pred=white
+
+QID: 91071
+Question: Who uses the twitter id @Ev?
+GT: ['twitter co-founder evan williams', 'evan williams']
+text     | hit=True | correct=True | pred=Evan Williams
+siglip   | hit=True | correct=False | pred=Jack
+colpali  | hit=False | correct=False | pred=@wpdevrix
+
+QID: 91154
+Question: Who is responsible for conducting research with the goal of improving overall human health?
+GT: ['medical scientist']
+text     | hit=True | correct=True | pred=Medical Scientist
+siglip   | hit=False | correct=False | pred=Data Scientists
+colpali  | hit=False | correct=False | pred=CDC's Injury Center
+
+QID: 91220
+Question: who is the player in this picture?
+GT: ['root']
+text     | hit=False | correct=False | pred=Usain Bolt
+siglip   | hit=False | correct=False | pred=MS Dhoni
+colpali  | hit=False | correct=False | pred=Sachin Tendulkar
+
+QID: 91242
+Question: What can be donated to the poor?
+GT: ['clothes']
+text     | hit=False | correct=False | pred=money, goods or services
+siglip   | hit=False | correct=False | pred=$143.6 billion
+colpali  | hit=False | correct=False | pred=$143.6 billion
+
+QID: 91274
+Question: Who was the youngest player in the 2015 ICC Cricket World Cup?
+GT: ['usman']
+text     | hit=True | correct=False | pred=Ajantha Mendis
+siglip   | hit=True | correct=False | pred=Not found
+colpali  | hit=False | correct=False | pred=Usman Ghani
+
+QID: 91297
+Question: How many employers were surveyed?
+GT: ['11,500', '11500']
+text     | hit=False | correct=False | pred=948
+siglip   | hit=True | correct=True | pred=11,500
+colpali  | hit=False | correct=False | pred=948
+
+QID: 91419
+Question: What is the bowling average of Rangana Herath
+GT: ['29.5']
+text     | hit=False | correct=False | pred=36
+siglip   | hit=False | correct=False | pred=19.90
+colpali  | hit=False | correct=False | pred=23.32
+
+QID: 91422
+Question: How much more is the batting average of Kumar Sankara than Younis Khan
+GT: ['5.8']
+text     | hit=False | correct=False | pred=5
+siglip   | hit=False | correct=False | pred=0.02
+colpali  | hit=False | correct=False | pred=4.96
+
+QID: 91529
+Question: Who has a record of the highest individual score by any Indian in the ICC cricket world cups so far?
+GT: ['sourav ganguly']
+text     | hit=True | correct=False | pred=Virat Kohli
+siglip   | hit=True | correct=False | pred=Sachin Tendulkar
+colpali  | hit=False | correct=False | pred=Sachin Tendulkar

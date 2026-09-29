@@ -1,0 +1,214 @@
+{
+  "questionId": 98437,
+  "question": "What percentage of internet users in Nigeria have mobile phones?",
+  "ground_truth": [
+    "54",
+    "54%"
+  ],
+  "target_image": "37318.jpeg",
+  "methods": {
+    "text": {
+      "hit": true,
+      "prediction": "54%",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "36961.jpeg",
+          "chunk_id": "36961_text_0006",
+          "score": 0.7078499794006348,
+          "bbox": [
+            0.06084943562746048,
+            0.5785510540008545,
+            0.9129826873540878,
+            0.738479936029762
+          ],
+          "text": "OF THE WORLD'S POPULATION 70% OWNS A MOBILE PHONE 85% MOBILE 65% INTERNETO 5%"
+        },
+        {
+          "rank": 2,
+          "image_name": "37318.jpeg",
+          "chunk_id": "37318_text_0002",
+          "score": 0.7078008055686951,
+          "bbox": [
+            0.039316389709711075,
+            0.2560502588748932,
+            0.9672268629074097,
+            0.5457802191376686
+          ],
+          "text": "WORLD M M A K E A K E LAGO S 54% 45 of Internet use MILLION is via MOBILE PHONE INTERNET USERS COUNTRYWID #2"
+        },
+        {
+          "rank": 3,
+          "image_name": "40786.jpeg",
+          "chunk_id": "40786_text_0003",
+          "score": 0.664353609085083,
+          "bbox": [
+            0.0408732034265995,
+            0.23379887640476227,
+            0.9341403841972351,
+            0.28809092938899994
+          ],
+          "text": "61% 90% % OWORLD W D 5 the of 7 NOW HAS ACCESS PERCENT OF THE WORLD'S POPULATION WITH MOBILE CELL SIGNAL to a MOBILE PHONE"
+        },
+        {
+          "rank": 4,
+          "image_name": "40786.jpeg",
+          "chunk_id": "40786_text_0004",
+          "score": 0.6557366251945496,
+          "bbox": [
+            0.0408732034265995,
+            0.2741752862930298,
+            0.9341403841972351,
+            0.35664889216423035
+          ],
+          "text": "PERCENT OF THE WORLD'S POPULATION WITH MOBILE CELL SIGNAL to a MOBILE PHONE THE DEVELOPING WORLD IS NOW 77% MORE MOBILE THAN THE DEVELOPED WORLD Dirveloping courtties MOST PHONES ARE OWNED BY PEOPLE h-Income 29%"
+        },
+        {
+          "rank": 5,
+          "image_name": "31595.jpeg",
+          "chunk_id": "31595_text_0002",
+          "score": 0.6366920471191406,
+          "bbox": [
+            0.03934205323457718,
+            0.1931861788034439,
+            0.9501795768737793,
+            0.36612845212221146
+          ],
+          "text": "South Africans use the internet Demographics South Africa Internet South Africa Internet Users by Sex Users by Age 47% 53% SA Internet Users by Monthly"
+        }
+      ]
+    },
+    "siglip": {
+      "hit": true,
+      "prediction": "54%",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "37318.jpeg",
+          "chunk_id": "37318_0001",
+          "score": 0.15831217169761658,
+          "bbox": [
+            0,
+            640,
+            630,
+            1408
+          ]
+        },
+        {
+          "rank": 2,
+          "image_name": "37318.jpeg",
+          "chunk_id": "37318_0000",
+          "score": 0.13797594606876373,
+          "bbox": [
+            0,
+            0,
+            630,
+            768
+          ]
+        },
+        {
+          "rank": 3,
+          "image_name": "37318.jpeg",
+          "chunk_id": "37318_0002",
+          "score": 0.13786041736602783,
+          "bbox": [
+            0,
+            1032,
+            630,
+            1800
+          ]
+        },
+        {
+          "rank": 4,
+          "image_name": "40927.jpeg",
+          "chunk_id": "40927_0015",
+          "score": 0.1288917511701584,
+          "bbox": [
+            0,
+            3200,
+            768,
+            3968
+          ]
+        },
+        {
+          "rank": 5,
+          "image_name": "31595.jpeg",
+          "chunk_id": "31595_0001",
+          "score": 0.12185075879096985,
+          "bbox": [
+            0,
+            640,
+            595,
+            1408
+          ]
+        }
+      ]
+    },
+    "colpali": {
+      "hit": true,
+      "prediction": "54%",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "37318.jpeg",
+          "chunk_id": "37318_0001",
+          "score": 21.203125,
+          "bbox": [
+            0,
+            640,
+            630,
+            1408
+          ]
+        },
+        {
+          "rank": 2,
+          "image_name": "37318.jpeg",
+          "chunk_id": "37318_0000",
+          "score": 20.703125,
+          "bbox": [
+            0,
+            0,
+            630,
+            768
+          ]
+        },
+        {
+          "rank": 3,
+          "image_name": "37318.jpeg",
+          "chunk_id": "37318_0002",
+          "score": 17.359375,
+          "bbox": [
+            0,
+            1032,
+            630,
+            1800
+          ]
+        },
+        {
+          "rank": 4,
+          "image_name": "44536.jpeg",
+          "chunk_id": "44536_0000",
+          "score": 16.5,
+          "bbox": [
+            0,
+            0,
+            600,
+            726
+          ]
+        },
+        {
+          "rank": 5,
+          "image_name": "37366.jpeg",
+          "chunk_id": "37366_0002",
+          "score": 16.28125,
+          "bbox": [
+            1232,
+            0,
+            2000,
+            768
+          ]
+        }
+      ]
+    }
+  }
+}

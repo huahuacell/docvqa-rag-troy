@@ -1,0 +1,213 @@
+{
+  "questionId": 98322,
+  "question": "Which platform is suitable for software providers?",
+  "ground_truth": [
+    "linkedin"
+  ],
+  "target_image": "37313.jpeg",
+  "methods": {
+    "text": {
+      "hit": false,
+      "prediction": "Hadoop",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "44970.jpeg",
+          "chunk_id": "44970_text_0019",
+          "score": 0.4002178907394409,
+          "bbox": [
+            0.03093377873301506,
+            0.7087860703468323,
+            0.9760221242904663,
+            0.7721926737576723
+          ],
+          "text": "MATLAR not tools Co: EScala SOFTWARE SOFTWARE SOFTWARE OFTWARE Hadoop IBM"
+        },
+        {
+          "rank": 2,
+          "image_name": "44768.jpeg",
+          "chunk_id": "44768_text_0012",
+          "score": 0.3999866247177124,
+          "bbox": [
+            0.2899928092956543,
+            0.5905961990356445,
+            0.9530186653137207,
+            0.6660221219062805
+          ],
+          "text": "Teradata, .o racle, and Hadoop. Where Do They Work 23 BUSINESS ANALYSTS Computer systems design and related 10% services 25% 8% Manufacturin"
+        },
+        {
+          "rank": 3,
+          "image_name": "37379.jpeg",
+          "chunk_id": "37379_text_0007",
+          "score": 0.39459770917892456,
+          "bbox": [
+            0.02728225290775299,
+            0.7531794905662537,
+            0.8753898739814758,
+            0.9079586267471313
+          ],
+          "text": "20% of companies globally use all four platforms FREQUENCY OF ACTIVITY 82% COM 500/ 920/ 0070 1370"
+        },
+        {
+          "rank": 4,
+          "image_name": "20294.jpeg",
+          "chunk_id": "20294_text_0014",
+          "score": 0.3941357135772705,
+          "bbox": [
+            0.027096930891275406,
+            0.567389965057373,
+            0.9845621734857559,
+            0.6197404991835356
+          ],
+          "text": "\"anywhere Access. 3 SECURITY 4 CLOUD SOURCES OF CIO SUCCESS of data maraagers currently use 52 5 APPLICATION MODERNIZATION cloud to Reduce 17 Capital Requirements by percentages"
+        },
+        {
+          "rank": 5,
+          "image_name": "36989.jpeg",
+          "chunk_id": "36989_text_0005",
+          "score": 0.3905905485153198,
+          "bbox": [
+            0.07353944331407547,
+            0.5604812502861023,
+            0.816592201590538,
+            0.6466206014156342
+          ],
+          "text": "sations interact content Social media activity Most actively used Most effective is ad hoc for almost platforms platforms 3 3in5 in 5"
+        }
+      ]
+    },
+    "siglip": {
+      "hit": false,
+      "prediction": "Microsoft Azure",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "37150.jpeg",
+          "chunk_id": "37150_0007",
+          "score": 0.08814164996147156,
+          "bbox": [
+            0,
+            4315,
+            638,
+            5083
+          ]
+        },
+        {
+          "rank": 2,
+          "image_name": "44970.jpeg",
+          "chunk_id": "44970_0001",
+          "score": 0.08731676638126373,
+          "bbox": [
+            0,
+            412,
+            736,
+            1180
+          ]
+        },
+        {
+          "rank": 3,
+          "image_name": "37212.jpeg",
+          "chunk_id": "37212_0011",
+          "score": 0.08713075518608093,
+          "bbox": [
+            1316,
+            1920,
+            2084,
+            2688
+          ]
+        },
+        {
+          "rank": 4,
+          "image_name": "36965.jpeg",
+          "chunk_id": "36965_0003",
+          "score": 0.08471397310495377,
+          "bbox": [
+            739,
+            640,
+            1507,
+            1408
+          ]
+        },
+        {
+          "rank": 5,
+          "image_name": "43581.jpeg",
+          "chunk_id": "43581_0028",
+          "score": 0.08435452729463577,
+          "bbox": [
+            2560,
+            2560,
+            3328,
+            3328
+          ]
+        }
+      ]
+    },
+    "colpali": {
+      "hit": true,
+      "prediction": "LinkedIn",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "37313.jpeg",
+          "chunk_id": "37313_0001",
+          "score": 16.4375,
+          "bbox": [
+            201,
+            640,
+            969,
+            1408
+          ]
+        },
+        {
+          "rank": 2,
+          "image_name": "37083.jpeg",
+          "chunk_id": "37083_0013",
+          "score": 12.9140625,
+          "bbox": [
+            432,
+            3529,
+            1200,
+            4297
+          ]
+        },
+        {
+          "rank": 3,
+          "image_name": "20149.jpeg",
+          "chunk_id": "20149_0009",
+          "score": 12.5546875,
+          "bbox": [
+            232,
+            5760,
+            1000,
+            6528
+          ]
+        },
+        {
+          "rank": 4,
+          "image_name": "40649.jpeg",
+          "chunk_id": "40649_0008",
+          "score": 12.28125,
+          "bbox": [
+            0,
+            4901,
+            768,
+            5669
+          ]
+        },
+        {
+          "rank": 5,
+          "image_name": "37395.jpeg",
+          "chunk_id": "37395_0006",
+          "score": 12.2734375,
+          "bbox": [
+            0,
+            1280,
+            768,
+            2048
+          ]
+        }
+      ]
+    }
+  }
+}

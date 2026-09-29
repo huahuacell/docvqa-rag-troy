@@ -1,0 +1,213 @@
+{
+  "questionId": 98370,
+  "question": "What is the color for Instagram in the Diagram \"Social Media Growth\"- blue, green, red, white?",
+  "ground_truth": [
+    "red"
+  ],
+  "target_image": "37159.jpeg",
+  "methods": {
+    "text": {
+      "hit": false,
+      "prediction": "white",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "20388.jpeg",
+          "chunk_id": "20388_text_0004",
+          "score": 0.4552161991596222,
+          "bbox": [
+            0.07135102152824402,
+            0.5966221690177917,
+            0.898063600063324,
+            0.7036715149879456
+          ],
+          "text": "+ 64% 4/5 ready using the Sto implemented Instagram ries format. Stories are growing 15x faster -based Stories daily users sorted by network G 300M"
+        },
+        {
+          "rank": 2,
+          "image_name": "37033.jpeg",
+          "chunk_id": "37033_text_0006",
+          "score": 0.439758837223053,
+          "bbox": [
+            0.053010351955890656,
+            0.326141357421875,
+            0.8506680876016617,
+            0.3743899129331112
+          ],
+          "text": "250 Million 95 Million #3 Instagram Monthly Active L Users Daily Active Users Active Users: Founded: 320 Million 700 Million 2009"
+        },
+        {
+          "rank": 3,
+          "image_name": "37340.jpeg",
+          "chunk_id": "37340_text_0001",
+          "score": 0.4264167547225952,
+          "bbox": [
+            0.13241004943847656,
+            0.3113212585449219,
+            0.8744746968150139,
+            0.4049743339419365
+          ],
+          "text": "Facebook Instagram Youtube WhatsApp 43% 38% 41% 40% G+ LINE"
+        },
+        {
+          "rank": 4,
+          "image_name": "37054.jpeg",
+          "chunk_id": "37054_text_0007",
+          "score": 0.42531347274780273,
+          "bbox": [
+            0.13819198310375214,
+            0.6155955791473389,
+            0.8840778470039368,
+            0.7940921783447266
+          ],
+          "text": "28% * use Linkedln of online adults use Twitter 26% use Instagram in 2 You Tube"
+        },
+        {
+          "rank": 5,
+          "image_name": "37083.jpeg",
+          "chunk_id": "37083_text_0010",
+          "score": 0.42059263586997986,
+          "bbox": [
+            0.07418027520179749,
+            0.564946711063385,
+            0.8484695255756378,
+            0.6655405163764954
+          ],
+          "text": "The 100 Million User Club Facebook: Twitter: Tweeters Google+: Weibo: LinkedIn: Badoo: Instagram: The Rising Stars Foursquare:"
+        }
+      ]
+    },
+    "siglip": {
+      "hit": false,
+      "prediction": "red",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "37083.jpeg",
+          "chunk_id": "37083_0005",
+          "score": 0.11738304048776627,
+          "bbox": [
+            432,
+            1280,
+            1200,
+            2048
+          ]
+        },
+        {
+          "rank": 2,
+          "image_name": "37083.jpeg",
+          "chunk_id": "37083_0004",
+          "score": 0.11359050869941711,
+          "bbox": [
+            0,
+            1280,
+            768,
+            2048
+          ]
+        },
+        {
+          "rank": 3,
+          "image_name": "37100.jpeg",
+          "chunk_id": "37100_0001",
+          "score": 0.11027264595031738,
+          "bbox": [
+            832,
+            0,
+            1600,
+            768
+          ]
+        },
+        {
+          "rank": 4,
+          "image_name": "20098.jpeg",
+          "chunk_id": "20098_0001",
+          "score": 0.10858596116304398,
+          "bbox": [
+            0,
+            640,
+            600,
+            1408
+          ]
+        },
+        {
+          "rank": 5,
+          "image_name": "37115.jpeg",
+          "chunk_id": "37115_0002",
+          "score": 0.10843494534492493,
+          "bbox": [
+            0,
+            1280,
+            550,
+            2048
+          ]
+        }
+      ]
+    },
+    "colpali": {
+      "hit": false,
+      "prediction": "white",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "37083.jpeg",
+          "chunk_id": "37083_0005",
+          "score": 24.5,
+          "bbox": [
+            432,
+            1280,
+            1200,
+            2048
+          ]
+        },
+        {
+          "rank": 2,
+          "image_name": "37083.jpeg",
+          "chunk_id": "37083_0004",
+          "score": 24.125,
+          "bbox": [
+            0,
+            1280,
+            768,
+            2048
+          ]
+        },
+        {
+          "rank": 3,
+          "image_name": "37324.jpeg",
+          "chunk_id": "37324_0013",
+          "score": 23.90625,
+          "bbox": [
+            832,
+            3840,
+            1600,
+            4608
+          ]
+        },
+        {
+          "rank": 4,
+          "image_name": "37115.jpeg",
+          "chunk_id": "37115_0002",
+          "score": 23.6875,
+          "bbox": [
+            0,
+            1280,
+            550,
+            2048
+          ]
+        },
+        {
+          "rank": 5,
+          "image_name": "37340.jpeg",
+          "chunk_id": "37340_0000",
+          "score": 23.609375,
+          "bbox": [
+            32,
+            0,
+            800,
+            768
+          ]
+        }
+      ]
+    }
+  }
+}

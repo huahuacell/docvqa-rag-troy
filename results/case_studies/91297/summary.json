@@ -1,0 +1,214 @@
+{
+  "questionId": 91297,
+  "question": "How many employers were surveyed?",
+  "ground_truth": [
+    "11,500",
+    "11500"
+  ],
+  "target_image": "43641.jpeg",
+  "methods": {
+    "text": {
+      "hit": false,
+      "prediction": "948",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "36993.jpeg",
+          "chunk_id": "36993_text_0001",
+          "score": 0.517315149307251,
+          "bbox": [
+            0.09047763794660568,
+            0.3718380033969879,
+            0.8901551961898804,
+            0.5393152236938477
+          ],
+          "text": "93* use Linkedln for job seeking? 1111 30% of respondents have 53% 40% 49% more women an account - up"
+        },
+        {
+          "rank": 2,
+          "image_name": "10829.jpeg",
+          "chunk_id": "10829_text_0002",
+          "score": 0.5004973411560059,
+          "bbox": [
+            0.05483395233750343,
+            0.3086337745189667,
+            0.943011686205864,
+            0.3806363381445408
+          ],
+          "text": "823,000 fewer people 449,000 fewer people Almost 1 million more wanted a job but were absent from work were unemployed, people were employed, didn't look for one, for COVID-related reasons, down 27%"
+        },
+        {
+          "rank": 3,
+          "image_name": "39546.jpeg",
+          "chunk_id": "39546_text_0001",
+          "score": 0.5003930926322937,
+          "bbox": [
+            0.09964779019355774,
+            0.1528884768486023,
+            0.8355124220252037,
+            0.2389405919238925
+          ],
+          "text": "? surveyed 234 estorm urveyed 104 948 367 Sinessis usiness"
+        },
+        {
+          "rank": 4,
+          "image_name": "40484.jpeg",
+          "chunk_id": "40484_text_0004",
+          "score": 0.4997406601905823,
+          "bbox": [
+            0.02440912090241909,
+            0.6246955990791321,
+            0.9587277770042419,
+            0.8710545301437378
+          ],
+          "text": "138,000 VS. VS. Source: Census MANAGEMENT, PROFESSIONAL AND RELATED POSITIONS IN THE U.S. LABOR FORCE HELD BY WOMEN 51.5% 51.4% 51.4%"
+        },
+        {
+          "rank": 5,
+          "image_name": "37391.jpeg",
+          "chunk_id": "37391_text_0005",
+          "score": 0.48547452688217163,
+          "bbox": [
+            0.17290098965168,
+            0.5218480825424194,
+            0.8230976164340973,
+            0.6228461861610413
+          ],
+          "text": "16% comments about their employer online 818888888 of employees post about their 1/3 employer without their employer asking them 888888888 hope their friends and family see the 79%"
+        }
+      ]
+    },
+    "siglip": {
+      "hit": true,
+      "prediction": "11,500",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "39468.jpeg",
+          "chunk_id": "39468_0028",
+          "score": 0.11498202383518219,
+          "bbox": [
+            1920,
+            3200,
+            2688,
+            3968
+          ]
+        },
+        {
+          "rank": 2,
+          "image_name": "10836.jpeg",
+          "chunk_id": "10836_0004",
+          "score": 0.11398134380578995,
+          "bbox": [
+            0,
+            1280,
+            768,
+            2048
+          ]
+        },
+        {
+          "rank": 3,
+          "image_name": "43641.jpeg",
+          "chunk_id": "43641_0000",
+          "score": 0.11366365849971771,
+          "bbox": [
+            0,
+            0,
+            768,
+            768
+          ]
+        },
+        {
+          "rank": 4,
+          "image_name": "39468.jpeg",
+          "chunk_id": "39468_0031",
+          "score": 0.11324013769626617,
+          "bbox": [
+            640,
+            3840,
+            1408,
+            4608
+          ]
+        },
+        {
+          "rank": 5,
+          "image_name": "11228.jpeg",
+          "chunk_id": "11228_0015",
+          "score": 0.11308849602937698,
+          "bbox": [
+            472,
+            4480,
+            1240,
+            5248
+          ]
+        }
+      ]
+    },
+    "colpali": {
+      "hit": false,
+      "prediction": "948",
+      "retrieved": [
+        {
+          "rank": 1,
+          "image_name": "40965.jpeg",
+          "chunk_id": "40965_0002",
+          "score": 13.796875,
+          "bbox": [
+            32,
+            1232,
+            800,
+            2000
+          ]
+        },
+        {
+          "rank": 2,
+          "image_name": "39546.jpeg",
+          "chunk_id": "39546_0001",
+          "score": 13.5234375,
+          "bbox": [
+            32,
+            640,
+            800,
+            1408
+          ]
+        },
+        {
+          "rank": 3,
+          "image_name": "11228.jpeg",
+          "chunk_id": "11228_0015",
+          "score": 13.515625,
+          "bbox": [
+            472,
+            4480,
+            1240,
+            5248
+          ]
+        },
+        {
+          "rank": 4,
+          "image_name": "11228.jpeg",
+          "chunk_id": "11228_0013",
+          "score": 13.4140625,
+          "bbox": [
+            472,
+            3840,
+            1240,
+            4608
+          ]
+        },
+        {
+          "rank": 5,
+          "image_name": "11228.jpeg",
+          "chunk_id": "11228_0014",
+          "score": 13.28125,
+          "bbox": [
+            0,
+            4480,
+            768,
+            5248
+          ]
+        }
+      ]
+    }
+  }
+}
